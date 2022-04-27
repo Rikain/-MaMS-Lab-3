@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="img_size_horizontal">300dp</dimen>
+    <dimen name="img_size_vertical">300dp</dimen>
+    <dimen name="up_space">100dp</dimen>
+    <dimen name="down_space">50dp</dimen>
+    <dimen name="side_space">25dp</dimen>
+    <dimen name="btn_spacer">10dp</dimen>
+    <dimen name="text_size">10sp</dimen>
+</resources>

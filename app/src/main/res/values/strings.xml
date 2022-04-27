@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Lab 3</string>
+    <string name="img_btn">Select image</string>
+    <string name="camera_btn">Camera feed</string>
+    <string name="text_menu">Text recognition</string>
+    <string name="object_menu">Object recognition</string>
+</resources>
