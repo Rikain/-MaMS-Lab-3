@@ -1,12 +1,15 @@
 package pl.edu.pwr.lab3.i242571;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 
 import android.graphics.Rect;
 import android.media.Image;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
@@ -29,6 +32,7 @@ import androidx.camera.core.Preview;
 import androidx.camera.lifecycle.ProcessCameraProvider;
 import androidx.camera.view.PreviewView;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.LifecycleOwner;
 
@@ -79,11 +83,16 @@ public class MainActivity extends AppCompatActivity implements ImageAnalysis.Ana
     private ImageAnalysis imageAnalysis;
     private ConstraintLayout constraintLayout;
 
+    static private int CAMERA_PERMISSION_CODE = 110;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        //make app ask for permissions
+        if(!permissionsGranted()){
+            String[] permissions = {android.Manifest.permission.CAMERA};
+            ActivityCompat.requestPermissions(this, permissions, CAMERA_PERMISSION_CODE);
+        }
         viewList = new LinkedList<View>();
         imgButton = findViewById(R.id.imgButton);
         cameraButton = findViewById(R.id.cameraButton);
@@ -116,6 +125,35 @@ public class MainActivity extends AppCompatActivity implements ImageAnalysis.Ana
                 switchView(true);
             }
         });
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           @NonNull String[] permissions,
+                                           @NonNull int[] grantResults)
+    {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == CAMERA_PERMISSION_CODE) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                return;
+                //Toast.makeText(MainActivity.this, "Camera Permission Granted", Toast.LENGTH_SHORT).show();
+            }
+            else {
+                return;
+                //Toast.makeText(MainActivity.this, "Camera Permission Denied", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    public boolean permissionsGranted() {
+        boolean allPermissionsGranted = true;
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP_MR1) {
+            boolean hasCameraPermission = (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED);
+            if (!hasCameraPermission) {
+                allPermissionsGranted = false;
+            }
+        }
+        return allPermissionsGranted;
     }
 
     private Executor getExecutor() {
