@@ -300,8 +300,11 @@ public class MainActivity extends AppCompatActivity implements ImageAnalysis.Ana
                                     }else{
                                         scaleRectangle(rect, image.getHeight(), image.getWidth());
                                     }
-
-                                    Draw draw = new Draw(MainActivity.this, rect, "");
+                                    String text = "";
+                                    if (!obj.getLabels().isEmpty()){
+                                        text = obj.getLabels().get(0).getText();
+                                    }
+                                    Draw draw = new Draw(MainActivity.this, rect, text);
                                     viewList.add(draw);
                                     MainActivity.this.constraintLayout.addView(draw);
                                 }
@@ -328,7 +331,7 @@ public class MainActivity extends AppCompatActivity implements ImageAnalysis.Ana
                     public void onSuccess(List<ImageLabel> labels) {
                         StringBuilder sb = new StringBuilder();
                         for (ImageLabel label : labels){
-                            if(label.getConfidence() > 0.7){
+                            if(label.getConfidence() > 0.5){
                                 sb.append(label.getText());
                                 sb.append(" ");
                             }

@@ -42,7 +42,7 @@ public class Draw extends View {
         super.onDraw(canvas);
 
         if(hasLabel){
-            canvas.drawText(text, rectangle.centerX(), rectangle.centerY(), textPaint);
+            canvas.drawText(text, rectangle.centerX() - (int) (((float) (rectangle.right - rectangle.left)) / 2) + (int) boundaryPaint.getStrokeWidth(), rectangle.centerY() - (int) (((float) (rectangle.bottom - rectangle.top)) / 2) - textPaint.getFontMetrics().bottom - textPaint.getFontMetrics().top, textPaint);
         }
         canvas.drawRect(rectangle.left, rectangle.top, rectangle.right, rectangle.bottom, boundaryPaint);
     }
