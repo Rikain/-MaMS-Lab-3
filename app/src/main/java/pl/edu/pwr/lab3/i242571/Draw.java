@@ -11,6 +11,7 @@ public class Draw extends View {
 
     Paint boundaryPaint;
     Paint textPaint;
+    Paint rectPaint;
     Rect rectangle;
     String text;
     boolean hasLabel;
@@ -23,9 +24,15 @@ public class Draw extends View {
         boundaryPaint.setStyle(Paint.Style.STROKE);
 
         textPaint = new Paint();
-        textPaint.setColor(Color.BLUE);
+        textPaint.setColor(Color.WHITE);
         textPaint.setTextSize(50f);
         textPaint.setStyle(Paint.Style.FILL);
+
+        rectPaint = new Paint();
+        rectPaint.setColor(Color.BLACK);
+        rectPaint.setStrokeWidth(10f);
+        rectPaint.setStyle(Paint.Style.FILL);
+
 
         this.rectangle = rectangle;
         if (text != null && !text.isEmpty()){
@@ -40,10 +47,10 @@ public class Draw extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-
+        canvas.drawRect(rectangle.left, rectangle.top, rectangle.right, rectangle.bottom, boundaryPaint);
         if(hasLabel){
+            canvas.drawRect(rectangle.left ,rectangle.top, rectangle.left + textPaint.measureText(text) + + (int) boundaryPaint.getStrokeWidth(), rectangle.top + textPaint.getTextSize(), rectPaint);
             canvas.drawText(text, rectangle.centerX() - (int) (((float) (rectangle.right - rectangle.left)) / 2) + (int) boundaryPaint.getStrokeWidth(), rectangle.centerY() - (int) (((float) (rectangle.bottom - rectangle.top)) / 2) - textPaint.getFontMetrics().bottom - textPaint.getFontMetrics().top, textPaint);
         }
-        canvas.drawRect(rectangle.left, rectangle.top, rectangle.right, rectangle.bottom, boundaryPaint);
     }
 }
